@@ -1,0 +1,38 @@
+service: base-serverless-lambda
+frameworkVersion: '3.34.0'
+
+provider:
+  name: aws
+  runtime: java17
+  region: ap-southeast-2
+  vpc:
+    securityGroupIds:
+      - sg-0cdd0c0937cc1de41
+    subnetIds:
+      - subnet-07cfe630286b0fc00
+      - subnet-0f6878e1ecc6a596a
+      - subnet-0744e38b5a1bc74f3
+
+package:
+  artifact: target/base-serverless-lambda-0.0.1-SNAPSHOT.jar
+
+functions:
+  welcome:
+    handler: com.fujifilm.welcome.WelcomeList
+    events:
+      - http:
+          path: /welcome
+          method: get
+      - http:
+          path: /welcome
+          method: post
+  
+  authentication:
+    handler: com.fujifilm.authentication.Authentication
+    events:
+      - http:
+          path: /token
+          method: post
+      - http:
+          path: /code/validate
+          method: post
